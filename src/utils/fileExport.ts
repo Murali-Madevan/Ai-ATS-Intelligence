@@ -1,8 +1,8 @@
-import { Document, Packer, Paragraph, TextRun, HeadingLevel, BorderStyle, PageBreak } from 'docx'
+import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle, PageBreak } from 'docx'
 import jsPDF from 'jspdf'
 import type { StructuredResume } from '@/types/resume'
 
-type DocxAlignment = 'start' | 'center' | 'end' | 'both' | 'mediumKashida' | 'distribute' | 'numTab' | 'highKashida' | 'lowKashida' | 'thaiDistribute' | 'left' | 'right'
+type DocxAlignment = (typeof AlignmentType)[keyof typeof AlignmentType]
 
 export async function exportToDOCX(resume: StructuredResume, fileName: string) {
   const children: Paragraph[] = []
@@ -36,7 +36,7 @@ export async function exportToDOCX(resume: StructuredResume, fileName: string) {
   }
 
   if (resume.name) {
-    addText(resume.name.toUpperCase(), { bold: true, size: 28, align: 'center' as DocxAlignment, spacing: { after: 60 } })
+    addText(resume.name.toUpperCase(), { bold: true, size: 28, align: AlignmentType.CENTER, spacing: { after: 60 } })
   }
 
   const contactParts: string[] = []
@@ -47,7 +47,7 @@ export async function exportToDOCX(resume: StructuredResume, fileName: string) {
   if (resume.contact.website) contactParts.push(resume.contact.website)
 
   if (contactParts.length > 0) {
-    addText(contactParts.join('  |  '), { size: 18, color: '555555', align: 'center' as DocxAlignment, spacing: { after: 200 } })
+    addText(contactParts.join('  |  '), { size: 18, color: '555555', align: AlignmentType.CENTER, spacing: { after: 200 } })
   }
 
   if (resume.summary) {

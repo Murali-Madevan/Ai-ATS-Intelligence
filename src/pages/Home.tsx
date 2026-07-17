@@ -29,11 +29,12 @@ async function readFileAsText(file: File): Promise<string> {
 
 export default function Home() {
   const navigate = useNavigate()
+  const app = useApp()
   const {
     resumeFile, setResumeFile, resumeText, setResumeText,
     jobDescription, setJobDescription, jdFile, setJdFile,
-    analysisStatus, analysisError, setAnalysisStatus, setAnalysisResult, setAnalysisError,
-  } = useApp()
+    analysisStatus, setAnalysisStatus, setAnalysisResult, setAnalysisError,
+  } = app
 
   const [showResumePaste, setShowResumePaste] = useState(false)
   const [showJdPaste, setShowJdPaste] = useState(false)
@@ -253,7 +254,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           className="rounded-2xl border border-danger/30 bg-danger/5 p-4 text-center"
         >
-          <p className="text-sm text-danger">{analysisError || 'Analysis failed. Please try again.'}</p>
+          <p className="text-sm text-danger">{app.analysisError || 'Analysis failed. Please try again.'}</p>
           <Button variant="outline" size="sm" className="mt-2" onClick={() => setAnalysisStatus('idle')}>
             Dismiss
           </Button>

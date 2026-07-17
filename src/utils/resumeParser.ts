@@ -218,14 +218,12 @@ function extractExperience(sections: ResumeSection[]): {
         dates: dates || '',
         bullets: [],
       }
-    } else {
-      if (!current) {
-        current = {
-          title: trimmed,
-          company: '',
-          dates: '',
-          bullets: [],
-        }
+    } else if (current === null) {
+      current = {
+        title: trimmed,
+        company: '',
+        dates: '',
+        bullets: [],
       }
     }
   }
@@ -499,8 +497,7 @@ async function parsePDF(file: File): Promise<string> {
 
 async function parseDOCX(file: File): Promise<string> {
   const arrayBuffer = await file.arrayBuffer()
-  const mammothInput: { arrayBuffer: ArrayBuffer } = { arrayBuffer }
-  const result = await mammoth.convertToHtml(mammothInput, { styleMap: [
+  const result = await mammoth.convertToHtml({ arrayBuffer }, { styleMap: [
     "p[style-name='Heading 1'] => h1:fresh",
     "p[style-name='Heading 2'] => h2:fresh",
     "p[style-name='Heading 3'] => h3:fresh",
